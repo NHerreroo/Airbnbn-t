@@ -1,0 +1,172 @@
+<odoo>
+  <data>
+ <!-- Definición de vista lista para pisos -->
+ <record model="ir.ui.view" id="inmobiliaria_nachete.list">
+  <field name="name">InmobiliariaNachete list</field>
+  <field name="model">inmobiliaria_nachete.inmobiliaria_nachete</field>
+  <field name="arch" type="xml">
+    <tree>
+      <field name="name"/>
+      <field name="ubicacio"/>
+      <field name="rating"/>
+    </tree>
+  </field>
+ </record>
+ <!-- Definición de vista lista para personas -->
+ <record model="ir.ui.view" id="inmobiliaria_nachete.list_personas">
+  <field name="name">InmobiliariaNachete list</field>
+  <field name="model">inmobiliaria_nachete.personas</field>
+  <field name="arch" type="xml">
+    <tree>
+      <field name="name"/>
+      <field name="cognom"/>
+      <field name="dni"/>
+    </tree>
+  </field>
+ </record>
+ <!-- Definición de vista formulario para viviendas -->
+ <record model="ir.ui.view" id="inmobiliaria_nachete.view_from_vivienda">
+  <field name="name">InmobiliariaNachete window</field>
+  <field name="model">inmobiliaria_nachete.inmobiliaria_nachete</field>
+  <field name="arch" type="xml">
+  <form string="Formulari Vivenda">
+    <sheet>
+      <group colspan="4">
+        <group>
+          <separator string="Informació Basica" colspan="2"/>
+          <field name="imagen" widget="image" class="oe_left oe_avatar" string="Imatge"/>
+          <field name="name" string="Nom"/>
+          <field name="ubicacio" string="Ubicació"/>
+          <field name="telefon" string="Telefón"/>
+          <field name="rating" string="Puntució"/>
+          <field name="preu" string="Preu"/>
+        </group>
+        <group>
+          <separator string="Dates Disponibles" colspan="2"/>
+          <field name="dia_de_entrada" string="Dia de entrada"/>
+          <field name="dia_de_sortida" string="Dia de sortida"/>
+        </group>
+        <group>
+          <separator string="Informació Adicional" colspan="2"/>
+          <field name="habitacions" string="Habitacions"/>
+          <field name="mascotes" string="Permet Mascotes?"/>
+          <field name="piscina" string="Te Piscina?"/>
+          <field name="internet" string="Te Internet?"/>
+          <field name="accesible" string="Accesible?"/>
+        </group>
+      </group>
+      <notebook>
+        <page string="Propietaris">
+          <group>
+            <field name="propietari" string="Propietari"/>
+          </group>
+        </page>
+        <page string="Otra Info">
+          <group>
+            <field name="propietari" string="Propietari"/>
+          </group>
+        </page>
+      </notebook>
+    </sheet>
+  </form>
+  </field>
+ </record>
+ <!-- Definición de vista formulario para personas -->
+ <record model="ir.ui.view" id="inmobiliaria_nachete.view_from_personas">
+  <field name="name">Persona Nueva</field>
+  <field name="model">inmobiliaria_nachete.personas</field>
+  <field name="arch" type="xml">
+  <form string="Formulari Persona">
+    <sheet>
+      <group colspan="4">
+        <group>
+          <separator string="Informació Basica" colspan="2"/>
+          <field name="name" string="Nom"/>
+          <field name="cognom" string="Cognom"/>
+          <field name="dni" string="DNI"/>
+          <field name="email" string="E-mail"/>
+          <field name="telefon" string="Telefón"/>
+        </group>
+      </group>
+    </sheet>
+  </form>
+  </field>
+ </record>
+ <!-- Definición de vista Kanban para pisos -->
+ <record model="ir.ui.view" id="inmobiliaria_nachete.kanban">
+     <field name="name">InmobiliariaNachete kanban</field>
+     <field name="model">inmobiliaria_nachete.inmobiliaria_nachete</field>
+     <field name="arch" type="xml">
+         <kanban>
+             <field name="name"/>
+             <field name="ubicacio"/>
+             <field name="rating"/>
+             <field name="imagen"/>
+            
+             <templates>
+                 <t t-name="kanban-box">
+                     <div t-attf-class="oe_kanban_global_click o_kanban_record #{kanban_getcolor(record.rating)}">
+                         <div class="o_kanban_image">
+                             <img t-att-src="kanban_image('inmobiliaria_nachete.inmobiliaria_nachete', 'imagen', record.id)" alt="Image"/>
+                         </div>
+                         <div class="oe_kanban_details">
+                             <strong><field name="name"/></strong>
+                             <div><field name="ubicacio"/></div>
+                             <div><field name="preu"/><span>€</span></div>
+                         </div>
+                     </div>
+                 </t>
+             </templates>
+         </kanban>
+     </field>
+ </record>
+ <!-- Acción que abre las vistas de los pisos, actualizada para incluir Kanban -->
+ <record model="ir.actions.act_window" id="inmobiliaria_nachete.action_window">
+     <field name="name">Lista De Pisos</field>
+     <field name="res_model">inmobiliaria_nachete.inmobiliaria_nachete</field>
+     <field name="view_mode">kanban,tree,form</field> <!-- Actualizado para incluir 'kanban' -->
+ </record>
+ <record model="ir.actions.act_window" id="inmobiliaria_nachete.action_window_persona">
+  <field name="name">Lista De Personas</field>
+  <field name="res_model">inmobiliaria_nachete.personas</field>
+  <field name="view_mode">tree,form</field>
+ </record>
+ <!-- Acción del servidor -->
+ <record model="ir.actions.server" id="inmobiliaria_nachete.action_server">
+  <field name="name">InmobiliariaNachete server</field>
+  <field name="model_id" ref="model_inmobiliaria_nachete_inmobiliaria_nachete"/>
+  <field name="state">code</field>
+  <field name="code">
+    action = {
+      "type": "ir.actions.act_window",
+      "view_mode": "kanban,tree,form",
+      "res_model": model._name,
+    }
+  </field>
+ </record>
+ 
+ 
+ <!-- Top menu item -->
+ 
+ 
+ <menuitem name="Inmobiliaria Nachete" id="inmobiliaria_nachete.menu_root"/>
+ 
+ 
+ <!-- menu categories -->
+ 
+ 
+ <menuitem name="Gestión de inmuebles" id="inmobiliaria_nachete.menu_1" parent="inmobiliaria_nachete.menu_root"/>
+ <menuitem name="Gestión de clientes" id="inmobiliaria_nachete.menu_2" parent="inmobiliaria_nachete.menu_root"/>
+ 
+ 
+ <!-- actions -->
+ 
+ 
+ <menuitem name="Lista de casas" id="inmobiliaria_nachete.menu_1_list" parent="inmobiliaria_nachete.menu_1"
+          action="inmobiliaria_nachete.action_window"/>
+ 
+ 
+ <menuitem name="Lista de Personas" id="inmobiliaria_nachete.menu_2_list" parent="inmobiliaria_nachete.menu_2"
+          action="inmobiliaria_nachete.action_window_persona"/>
+  </data>
+ </odoo>
