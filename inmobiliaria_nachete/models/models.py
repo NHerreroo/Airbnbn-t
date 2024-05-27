@@ -1,43 +1,37 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
-class inmobiliaria_nachete(models.Model):
+from odoo import models, fields
+
+class InmobiliariaNachete(models.Model):
    _name = 'inmobiliaria_nachete.inmobiliaria_nachete'
-   _description = 'inmobiliaria_nachete.inmobiliaria_nachete'
-   name = fields.Char()
-   value = fields.Integer()
-   value2 = fields.Float(compute="_value_pc", store=True)
-   description = fields.Text()
+   _description = 'Modelo de Vivienda'
+
+   name = fields.Char(string="Nombre")
+   descripcion = fields.Text(string="Descripción")
+   ubicacio = fields.Char(string="Ubicación")
+   dia_de_entrada = fields.Date(string="Día de Entrada")
+   dia_de_sortida = fields.Date(string="Día de Salida")
+   imagen = fields.Binary(string="Imagen", widget="image")
+   habitacions = fields.Integer(string="Habitaciones")
+   mascotes = fields.Boolean(string="Permite Mascotas")
+   piscina = fields.Boolean(string="Tiene Piscina")
+   preu = fields.Float(string="Precio")
+   internet = fields.Boolean(string="Tiene Internet")
+   telefon = fields.Integer(string="Teléfono")
+   accesible = fields.Boolean(string="Accesible")
+   rating = fields.Integer(string="Rating")
+   propietari = fields.One2many('inmobiliaria_nachete.personas', 'casa', string="Propietarios")
+   notas = fields.Text()
 
 
-   name = fields.Char()
-   descripcion = fields.Text()
-   ubicacio = fields.Char()
-   dia_de_entrada = fields.Date()
-   dia_de_sortida = fields.Date()
-   imagen = fields.Binary(string="image")
-   habitacions = fields.Integer()
-   mascotes = fields.Boolean()
-   piscina = fields.Boolean()
-   preu = fields.Float()
-   internet = fields.Boolean()
-   telefon = fields.Integer()
-   accesible = fields.Boolean()
-   rating = fields.Integer()
-
-
-   propietari = fields.Many2one('inmobiliaria_nachete.personas','Propietari')
-
-
-class personas(models.Model):
+class Personas(models.Model):
    _name = 'inmobiliaria_nachete.personas'
-   _description = 'personas,clientes,vendores'
+   _description = 'Modelo de Personas'
 
-
-   name = fields.Char()
-   cognom = fields.Char()
-   dni = fields.Char()
-   email = fields.Char()
-   telefon = fields.Integer()
-
-
+   name = fields.Char(string="Nombre")
+   cognom = fields.Char(string="Apellido")
+   dni = fields.Char(string="DNI", size=9)
+   email = fields.Char(string="Email")
+   telefon = fields.Integer(string="Teléfono")
+   casa = fields.Many2one('inmobiliaria_nachete.inmobiliaria_nachete', string="Casa")
+ 

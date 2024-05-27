@@ -1,24 +1,64 @@
 <odoo>
-    <data>
-<!--
-        <template id="listing">
-          <ul>
-            <li t-foreach="objects" t-as="object">
-              <a t-attf-href="#{ root }/objects/#{ object.id }">
-                <t t-esc="object.display_name"/>
-              </a>
-            </li>
-          </ul>
-        </template>
-        <template id="object">
-          <h1><t t-esc="object.display_name"/></h1>
-          <dl>
-            <t t-foreach="object._fields" t-as="field">
-              <dt><t t-esc="field"/></dt>
-              <dd><t t-esc="object[field]"/></dd>
+    <template id="report_casa_template">
+        <t t-call="web.basic_layout">
+            <t t-set="lang" t-value="o_lang"></t>
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <h2>Informe de Casas</h2>
+                    <br />
+                    <h1>
+                        <span t-field="o.name" />
+                    </h1>
+                    <img t-if="o.imagen" t-att-src="'/web/image/inmobiliaria_nachete.inmobiliaria_nachete/' + str(o.id) + '/imagen'" style="max-width: 100px;" />
+                    <h3>
+                        <strong>Informació Basica</strong>
+                    </h3>
+                    <p>Descripció: <span t-field="o.descripcion" /></p>
+                    <p>Ubicació: <span t-field="o.ubicacio" /></p>
+                    <p>Telefón: <span t-field="o.telefon" /></p>
+                    <p>Puntuació: <span t-field="o.rating" /></p>
+                    <p>
+                        <strong>Preu Total: <span t-field="o.preu" /> €</strong>
+                    </p>
+                    <h3>
+                        <strong>Dates Disponibles</strong>
+                    </h3>
+                    <p>Dia d'entrada: <span t-field="o.dia_de_entrada" /></p>
+                    <p>Dia de sortida: <span t-field="o.dia_de_sortida" /></p>
+                    <h3>
+                        <strong>Altre Info</strong>
+                    </h3>
+                    <p>Habitacións: <span t-field="o.habitacions" /></p>
+                    <p>Permet Mascotes: <span t-field="o.mascotes"
+                            t-options='{"widget": "boolean" }' /></p>
+                    <p>Té Piscina: <span t-field="o.piscina" t-options='{"widget": "boolean" }' /></p>
+                    <p>Té Internet: <span t-field="o.internet" t-options='{"widget": "boolean" }' /></p>
+                    <p>És Acessible: <span t-field="o.accesible" t-options='{"widget": "boolean" }' /></p>
+                    <h3>
+                        <strong>Propietaris</strong>
+                    </h3>
+                    <table class="table table-sm mt32" colspan="4">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Cognom</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.propietari" t-as="propietario">
+                                <tr>
+                                    <td>
+                                        <span t-field="propietario.name" />
+                                    </td>
+                                    <td>
+                                        <span t-field="propietario.cognom" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
             </t>
-          </dl>
-        </template>
--->
-    </data>
+        </t>
+    </template>
 </odoo>

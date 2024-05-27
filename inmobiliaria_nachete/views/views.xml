@@ -55,18 +55,24 @@
           <field name="accesible" string="Accesible?"/>
         </group>
       </group>
+      
       <notebook>
         <page string="Propietaris">
-          <group>
-            <field name="propietari" string="Propietari"/>
-          </group>
+          <field name="propietari" widget="stock_move_one2many">
+            <tree>
+              <field name="name"></field>
+              <field name="cognom"></field>
+              <field name="dni"></field>
+              <field name="telefon"></field>
+            </tree>
+          </field>
         </page>
-        <page string="Otra Info">
-          <group>
-            <field name="propietari" string="Propietari"/>
-          </group>
+        <page string="Notas">
+          <field name="notas" string="Notas:"/>
         </page>
       </notebook>
+
+
     </sheet>
   </form>
   </field>
@@ -86,40 +92,45 @@
           <field name="dni" string="DNI"/>
           <field name="email" string="E-mail"/>
           <field name="telefon" string="Telefón"/>
+          <field name="casa" string="Casa:"/>
         </group>
       </group>
     </sheet>
   </form>
   </field>
  </record>
- <!-- Definición de vista Kanban para pisos -->
+ 
  <record model="ir.ui.view" id="inmobiliaria_nachete.kanban">
-     <field name="name">InmobiliariaNachete kanban</field>
-     <field name="model">inmobiliaria_nachete.inmobiliaria_nachete</field>
-     <field name="arch" type="xml">
-         <kanban>
-             <field name="name"/>
-             <field name="ubicacio"/>
-             <field name="rating"/>
-             <field name="imagen"/>
-            
-             <templates>
-                 <t t-name="kanban-box">
-                     <div t-attf-class="oe_kanban_global_click o_kanban_record #{kanban_getcolor(record.rating)}">
-                         <div class="o_kanban_image">
-                             <img t-att-src="kanban_image('inmobiliaria_nachete.inmobiliaria_nachete', 'imagen', record.id)" alt="Image"/>
-                         </div>
-                         <div class="oe_kanban_details">
-                             <strong><field name="name"/></strong>
-                             <div><field name="ubicacio"/></div>
-                             <div><field name="preu"/><span>€</span></div>
-                         </div>
-                     </div>
-                 </t>
-             </templates>
-         </kanban>
-     </field>
- </record>
+  <field name="name">InmobiliariaNachete kanban</field>
+  <field name="model">inmobiliaria_nachete.inmobiliaria_nachete</field>
+  <field name="arch" type="xml">
+      <kanban>
+          <field name="name"/>
+          <field name="ubicacio"/>
+          <field name="rating"/>
+          <field name="imagen"/>
+          <field name="preu"/>
+          <templates>
+              <t t-name="kanban-box">
+                  <div t-attf-class="oe_kanban_global_click" class="oe_module_vignette" style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden; width: 400px; height: 120px; margin: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex;">
+                      <div class="o_kanban_image" style="width: 250px; height: 250px; border-radius: 8px;">
+                          <field name="imagen" widget="image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; margin-top: 7px; margin-left: 7px; border-radius: 8px;"/>
+                      </div>
+                      <div class="oe_kanban_details" style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                          <div style="margin-bottom: 5px; font-size: 1.2em;"><strong><field name="name"/></strong></div>
+                          <div style="margin-bottom: 5px;"><field name="ubicacio"/></div>
+                          <div style="margin-bottom: 5px;"><field name="rating"/><span>⭐</span></div>
+                          <div><field name="preu"/><span>€</span></div>
+                      </div>
+                  </div>
+              </t>
+          </templates>
+      </kanban>
+  </field>
+</record>
+
+
+
  <!-- Acción que abre las vistas de los pisos, actualizada para incluir Kanban -->
  <record model="ir.actions.act_window" id="inmobiliaria_nachete.action_window">
      <field name="name">Lista De Pisos</field>
@@ -144,12 +155,21 @@
     }
   </field>
  </record>
+  <report
+    id="casa_report"
+    model="inmobiliaria_nachete.inmobiliaria_nachete"
+    string="Informe de Casa"
+    report_type="qweb-html"
+    name="inmobiliaria_nachete.report_casa_template"
+    file="inmobiliaria_nachete.report_casa_template"
+    print_report_name="'Informe de Casa - %s' % (object.name)"
+  />
  
  
  <!-- Top menu item -->
  
  
- <menuitem name="Inmobiliaria Nachete" id="inmobiliaria_nachete.menu_root"/>
+ <menuitem name="Airbnbn't" id="inmobiliaria_nachete.menu_root"/>
  
  
  <!-- menu categories -->
